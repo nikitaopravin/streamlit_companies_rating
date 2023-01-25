@@ -1,1 +1,1 @@
-# streamlit_examples
+# streamlit_companies_rating
