@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import seaborn as sns
+from sklearn.linear_model import LinearRegression
 
 
 st.header('Restaurant tip research')
@@ -113,5 +114,13 @@ sns.stripplot(tips, x='size', y='tip', hue='sex', palette='dark:#5A9_r', jitter=
 ax.set_xlabel('num of people')
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f'{int(y)} $'))
 st.pyplot(fig)
+
+st.sidebar.subheader('Prediction of tip')
+user_total_bill = st.sidebar.slider('What is your total bill?', 0, 50, 20)
+user_visitors_count = st.sidebar.slider('How many of you?', 1, 6, 2)
+LinearRG = LinearRegression()
+result = LinearRG.fit(tips[['total_bill', 'size']].values.reshape(-1,2), y=tips['tip'].values)
+predict_tip = result.predict([[user_total_bill, user_visitors_count]])
+st.sidebar.markdown(f'Probably tip will be: **{round(predict_tip[0], 2)} $**')
 
 
